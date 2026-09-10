@@ -1,12 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Credenciales de Siigo
-const siigoUsuario = 'ventas@jhamf.com';
-const siigoAccessKey = 'M2EyNTNiNjMtMDYzMC00NjIxLTk0MzctYTExYWM3NGZmNTIxOjZ2Un5fczE1fUo=';
-const siigoPartnerId = '123456';
+const siigoUsuario = process.env.SIIGO_USUARIO;
+const siigoAccessKey = process.env.SIIGO_ACCESS_KEY;
+const siigoPartnerId = process.env.SIIGO_PARTNER_ID;
+
+if (!siigoUsuario || !siigoAccessKey || !siigoPartnerId) {
+  throw new Error('Faltan variables de entorno de Siigo (SIIGO_USUARIO, SIIGO_ACCESS_KEY, SIIGO_PARTNER_ID). Revisa tu archivo .env');
+}
 
 // Obtener token
 async function obtenerToken() {
